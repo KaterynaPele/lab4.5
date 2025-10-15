@@ -4,61 +4,45 @@
 #include <cstdlib>
 using namespace std;
 
-int main() {
-    double x, y, R;
+int main()
+{
+    double x, y;
+    double R;
     cout << "R = ";
     cin >> R;
 
     srand((unsigned)time(NULL));
 
-    // 1 СПОСІБ
-    cout << "1 спосіб: введення 10 точок вручну";
-    for (int i = 0; i < 10; i++) {
-        cout << "\nТочка №" << i + 1 << endl;
+    // --- 1 спосіб: введення 10 точок ---
+    for (int i = 0; i < 10; i++)
+    {
         cout << "x = "; cin >> x;
         cout << "y = "; cin >> y;
 
-        bool hit = false;
-
-        // 1) Верхній правий квадрат
-        if (x >= 0 && x <= 2 * R && y >= R && y <= 2 * R)
-            hit = true;
-
-        // 2) Нижній лівий трикутник
-        if (x >= -2 * R && x <= 0 && y >= -2 * R && y <= x)
-            hit = true;
-
-        // 3) Чверть кола (радіус R, у першій чверті)
-        if (x >= 0 && y >= 0 && x * x + y * y <= R * R)
-            hit = true;
-
-        cout << (hit ? "→ yes!" : "→ no.") << endl;
+        if ((x >= 0 && x <= 2 * R && y >= R && y <= 2 * R) ||       // квадрат
+            (x >= -2 * R && x <= 0 && y >= -2 * R && y <= x) ||     // трикутник
+            (x >= 0 && y >= 0 && x * x + y * y <= R * R))             // чверть кола
+            cout << "yes" << endl;
+        else
+            cout << "no" << endl;
     }
 
-    // === 2 СПОСІБ ===
-    cout << "2 спосіб: випадкові 10 точок (x, y ∈ [-2R; 2R])";
+    cout << endl << fixed;
 
-    for (int i = 0; i < 10; i++) {
-        // Генеруємо координати випадково в межах [-2R; 2R]
-        x = (double)rand() / RAND_MAX * (4 * R) - 2 * R;
-        y = (double)rand() / RAND_MAX * (4 * R) - 2 * R;
+    // --- 2 спосіб: випадкові 10 точок ---
+    for (int i = 0; i < 10; i++)
+    {
+        x = 4 * R * rand() / RAND_MAX - 2 * R;   // [-2R; 2R]
+        y = 4 * R * rand() / RAND_MAX - 2 * R;   // [-2R; 2R]
 
-        bool hit = false;
-
-        // Ті самі три частини області
-        if (x >= 0 && x <= 2 * R && y >= R && y <= 2 * R)
-            hit = true;
-
-        if (x >= -2 * R && x <= 0 && y >= -2 * R && y <= x)
-            hit = true;
-
-        if (x >= 0 && y >= 0 && x * x + y * y <= R * R)
-            hit = true;
-
-        cout << setw(8) << fixed << setprecision(3) << x << " "
-            << setw(8) << fixed << setprecision(3) << y << " "
-            << (hit ? "→ yes!" : "→ no.") << endl;
+        if ((x >= 0 && x <= 2 * R && y >= R && y <= 2 * R) ||       // квадрат
+            (x >= -2 * R && x <= 0 && y >= -2 * R && y <= x) ||     // трикутник
+            (x >= 0 && y >= 0 && x * x + y * y <= R * R))             // чверть кола
+            cout << setw(8) << setprecision(4) << x << " "
+            << setw(8) << setprecision(4) << y << " yes" << endl;
+        else
+            cout << setw(8) << setprecision(4) << x << " "
+            << setw(8) << setprecision(4) << y << " no" << endl;
     }
-
     return 0;
 }
